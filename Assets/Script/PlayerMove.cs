@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    float MoveSpeed = 5f;
+    float MoveSpeed = 100f;
     float rotateSpeed = 180f;
+    [SerializeField]
     private Rigidbody prb;
     float speed;
 
@@ -18,6 +19,7 @@ public class PlayerMove : MonoBehaviour
 
 
     public float inputRotate { get; private set; }
+    public float inputRotate2 { get; private set; }
 
 
     void Start()
@@ -45,15 +47,25 @@ public class PlayerMove : MonoBehaviour
     {
         inputRotate = Input.GetAxis("Horizontal");
         
+
         // 시간이 지날수록 가속도 올리기 / 무브스피드가 10일때 가속하지않음.
         if (speed < 8)
         {
         speed += Time.deltaTime;
         }
 
-        Vector3 foward = transform.forward * MoveSpeed * speed;
+        Vector3 foward = transform.forward * speed * Time.deltaTime;
+        prb.MovePosition(prb.position + foward);
 
-        prb.MovePosition(foward);
+        
+
+        //Vector3 lastpos = transform.position;
+        //float dist = (lastpos - transform.position).magnitude;
+        //float timer = 0f;
+        //timer += Time.deltaTime;
+        //float a = dist / timer ;
+        //timer = 0f;
+        //lastpos = transform.position;
 
         //상대적으로 회전할 수치 계산
         float turn = inputRotate * rotateSpeed * Time.deltaTime;
@@ -67,18 +79,32 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Zombie" && speed > 4)
+        Debug.Log("닿음");
+        if (speed > 2)
+        {
+        speed -= 0.5f;
+        }
+        Debug.Log(speed);
+        if (collision.gameObject.tag == "Zombie" && speed > 5)
         {
 
             zombie = collision.gameObject.GetComponent<Zombie>();
             zombie.Die();
-            speed -= 2;
-            Debug.Log(speed);
+            
+            
+
+            //Vector3 force = (collision.transform.position - transform.position).normalized;
+            //zombie.GetComponent<Rigidbody>().AddForce(force * 100f);
 
 
     }
-}
 
+    }
 
+    void OnTriggerEnter(Collider other)
+        {
+         
+        }
+    
 
 }

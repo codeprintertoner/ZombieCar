@@ -5,6 +5,7 @@ using UnityEngine;
 public class Zombie : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField]
     Rigidbody zrb;
     Animator zani;
     [SerializeField]
@@ -39,7 +40,7 @@ public class Zombie : MonoBehaviour
         transform.LookAt(player.transform);
         //플레이어 애니메이션 무브 작동
         zani.SetFloat("MoveSpeed", Vector3.forward.z);
-
+            
         }
 
         
@@ -47,10 +48,11 @@ public class Zombie : MonoBehaviour
     public void Die()
     {
         zani.SetTrigger("Dead");
-        gameObject.GetComponent<BoxCollider>().enabled = false;
-
+        gameObject.GetComponent<BoxCollider>().isTrigger = true;
         StartCoroutine(HideObj());
         isdie = true;
+
+        
 
 
     }
