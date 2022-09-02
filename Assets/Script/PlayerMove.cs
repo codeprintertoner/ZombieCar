@@ -8,14 +8,15 @@ public class PlayerMove : MonoBehaviour
     float rotateSpeed = 180f;
     [SerializeField]
     private Rigidbody prb;
-    float speed;
+
+    public float speed { get; set; }
+
 
     [SerializeField]
+
     private Zombie zombie;
 
     public ZombieSpawner zombieSpawner;
-
-    
 
 
     public float inputRotate { get; private set; }
@@ -33,31 +34,31 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
 
-      
+
 
 
     }
 
     private void FixedUpdate()
     {
-        Move();   
+        Move();
     }
-    
+
     private void Move()
     {
         inputRotate = Input.GetAxis("Horizontal");
-        
 
+        
         // 시간이 지날수록 가속도 올리기 / 무브스피드가 10일때 가속하지않음.
         if (speed < 8)
         {
-        speed += Time.deltaTime;
+            speed += Time.deltaTime;
         }
 
         Vector3 foward = transform.forward * speed * Time.deltaTime;
         prb.MovePosition(prb.position + foward);
 
-        
+
 
         //Vector3 lastpos = transform.position;
         //float dist = (lastpos - transform.position).magnitude;
@@ -70,41 +71,23 @@ public class PlayerMove : MonoBehaviour
         //상대적으로 회전할 수치 계산
         float turn = inputRotate * rotateSpeed * Time.deltaTime;
         //리지드바디를 이용해 게임 오브젝트 회전 변경
-         prb.rotation *= Quaternion.Euler(0f, turn, 0f);
-    
-       
+        prb.rotation *= Quaternion.Euler(0f, turn, 0f);
+
+
     }
 
-
-
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("닿음");
+
+
+        
         if (speed > 2)
         {
-        speed -= 0.5f;
+            speed -= 0.5f;
         }
-        Debug.Log(speed);
-        if (collision.gameObject.tag == "Zombie" && speed > 5)
-        {
 
-            zombie = collision.gameObject.GetComponent<Zombie>();
-            zombie.Die();
-            
-            
 
-            //Vector3 force = (collision.transform.position - transform.position).normalized;
-            //zombie.GetComponent<Rigidbody>().AddForce(force * 100f);
 
 
     }
-
-    }
-
-    void OnTriggerEnter(Collider other)
-        {
-         
-        }
-    
-
 }

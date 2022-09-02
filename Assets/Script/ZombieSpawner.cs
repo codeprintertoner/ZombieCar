@@ -13,20 +13,17 @@ public class ZombieSpawner : MonoBehaviour
     float spawnRate;
 
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         //player = GetComponent<PlayerMove>();
         spawnRate = Random.Range(0.6f, 1f);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
-    private void FixedUpdate()
+
+    private void Update()
     {
         CreateZombie();
     }
@@ -48,11 +45,10 @@ public class ZombieSpawner : MonoBehaviour
         if (timeAfterSpawn >= spawnRate)
         {
             timeAfterSpawn = 0f;
-            zombie = Instantiate(zombiePrefab, SpawnPoint, Quaternion.identity);
+            var zombie = ObjectPool.Instance.CreateZombie(SpawnPoint);
+            //zombie.transform.parent();
             spawnRate = Random.Range(0.6f,1f);
         }
         
-
-
     }
 }
