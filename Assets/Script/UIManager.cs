@@ -95,7 +95,7 @@ public class UIManager : MonoBehaviour
         SpeedText.text = "SPEED\n" + (int)player.speed;
     }
 
-    // 
+ 
     public void Score(int dir)
     {
         score += dir;

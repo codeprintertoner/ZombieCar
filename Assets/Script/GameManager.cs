@@ -25,7 +25,12 @@ public class GameManager : MonoBehaviour
     #endregion
     //----------------------------------------------------------------------
 
-   
+ 
+
+    private void Start()
+    {
+        UIManager.Inst.isGameover = true;
+    }
 
 
 
