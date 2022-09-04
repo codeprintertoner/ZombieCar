@@ -38,7 +38,7 @@ public class ObjectPool : MonoBehaviour
 
     public Zombie CreateZombie(Vector3 pos)
     {
-        
+
 
         Zombie instMob;
         // 처음에는 아무것도 없으니 생성하자
@@ -46,16 +46,14 @@ public class ObjectPool : MonoBehaviour
         {
             // 인스턴시레이트로 생성할 프리팹을 직접 Resources에 있는 몬스터 프리팹을 직접 가져옴
             //로드한 프리팹을 이용해서 인스턴트 객체 한개를 만든다.
+
             instMob = Instantiate(ZombiePrefab, pos, Quaternion.identity);
-            
-            //팔을 붙힘
-            //다리를 붙힘
-            
+      
             return instMob;
         }
 
         
-
+        
         // 기존의 목록 중에서 비활성화 된 것을 찾는다.
         // 지금 큐에서는 맨 앞에 있는 것 하나를 전달해 주면
         instMob = pool.Dequeue();

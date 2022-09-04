@@ -10,8 +10,15 @@ public class Zombie : MonoBehaviour
     Animator zani;
     [SerializeField]
     private PlayerMove player;
+    [SerializeField]
+    private CamShake camShake;
 
-    float DieTime; 
+    private ZombieDieColor zombieDieColor;
+
+       public float slowFactor = 0.5f;
+
+       
+
 
     bool isdie = false;
     
@@ -21,7 +28,8 @@ public class Zombie : MonoBehaviour
         zrb = GetComponent<Rigidbody>();
         zani = GetComponent<Animator>();
         player = FindObjectOfType<PlayerMove>();
-
+        camShake = FindObjectOfType<CamShake>();
+        zombieDieColor = GetComponentInChildren<ZombieDieColor>();
     }
 
     void OnEnable()
@@ -33,6 +41,9 @@ public class Zombie : MonoBehaviour
         gameObject.GetComponent<BoxCollider>().isTrigger = false;
         isdie = false;
         zrb.useGravity = true;
+        zombieDieColor.skinnedMeshRenderer.materials[0].color = Color.white;
+        zombieDieColor.skinnedMeshRenderer.materials[1].color = Color.white;
+
         nextState(STATE.MOVE);
 
     }
@@ -40,7 +51,7 @@ public class Zombie : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DieTime += Time.deltaTime;
+
         
     }
 
@@ -57,7 +68,15 @@ public class Zombie : MonoBehaviour
     }
     public STATE curState = STATE.NONE;
 
-    
+    void SlowTime()
+    {
+        Time.timeScale = slowFactor;
+        Time.fixedDeltaTime = 0.02f;
+
+    }
+
+   
+
     void nextState(STATE newState) //
     {
         if(newState == curState) // 기존상태랑 같으면 리턴
@@ -90,12 +109,29 @@ public class Zombie : MonoBehaviour
     IEnumerator DEATH()
     {
         zani.SetTrigger("Dead");
-        gameObject.GetComponent<BoxCollider>().isTrigger = true;
+       
+        //gameObject.GetComponent<BoxCollider>().isTrigger = true;
         StartCoroutine(HideObj());
+        
+
         isdie = true;
 
         zrb.constraints = RigidbodyConstraints.None;
-        zrb.useGravity = false;
+
+       
+        //zrb.useGravity = false;
+
+        UIManager.Inst.Score(100);
+
+            camShake.camShake();
+
+        zombieDieColor.Materia();
+
+        SlowTime();
+
+        StartCoroutine(JustTime());
+        
+
 
         yield return null;
     }
@@ -103,10 +139,23 @@ public class Zombie : MonoBehaviour
     IEnumerator HideObj()
     {
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         ObjectPool.Instance.DestroyZombie(this);
         
     }
+
+    IEnumerator JustTime()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        if(Time.timeScale <= 1f)
+        {
+            Time.timeScale = 1f;
+        }
+        
+        
+
+    }
+    
 
     void OnCollisionEnter(Collision collision)
     {
@@ -114,14 +163,20 @@ public class Zombie : MonoBehaviour
 
      
 
-        if (collision.gameObject.tag == "Player" && player.speed > 5)
+        if (collision.gameObject.tag == "Player"  )
         {
 
-            nextState(STATE.DEATH);
-            //zombie.Die();
+            if (player.speed > 2 && !isdie)
+            {
+                player.speed -= 1f;
+            }
 
-            //Vector3 force = (collision.transform.position - transform.position).normalized;
-            //zombie.GetComponent<Rigidbody>().AddForce(force * 100f);
+            if (player.speed > 5 && !isdie)
+            {
+            nextState(STATE.DEATH);
+
+            }
+            
 
         }
 

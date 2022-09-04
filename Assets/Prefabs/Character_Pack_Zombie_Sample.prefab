@@ -650,6 +650,7 @@ GameObject:
   m_Component:
   - component: {fileID: 15817579543028909}
   - component: {fileID: 15817579529074103}
+  - component: {fileID: 1572401320}
   m_Layer: 0
   m_Name: zombie_zombie4
   m_TagString: Untagged
@@ -753,6 +754,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.2262297, y: 0.003887251, z: 0}
     m_Extent: {x: 0.5237266, y: 0.20348991, z: 0.30575648}
   m_DirtyAABB: 0
+--- !u!114 &1572401320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15817579542739149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a62d63671f997b4db4518454f630091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skinnedMeshRenderer: {fileID: 15817579529074103}
 --- !u!1 &15817579542739151
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,8 +865,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc21981f687d05f489a3aaf33161aeeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zrb: {fileID: 0}
+  zrb: {fileID: 15817579404094549}
   player: {fileID: 0}
+  camShake: {fileID: 0}
+  curState: 0
 --- !u!1 &15817579542739153
 GameObject:
   m_ObjectHideFlags: 0

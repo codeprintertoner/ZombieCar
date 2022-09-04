@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    float MoveSpeed = 100f;
+    
     float rotateSpeed = 180f;
     [SerializeField]
     private Rigidbody prb;
-
+    
     public float speed { get; set; }
 
 
@@ -34,7 +34,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
 
-
+        
 
 
     }
@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour
 
         
         // 시간이 지날수록 가속도 올리기 / 무브스피드가 10일때 가속하지않음.
-        if (speed < 8)
+        if (speed < 10)
         {
             speed += Time.deltaTime;
         }
@@ -76,18 +76,5 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-
-
-        
-        if (speed > 2)
-        {
-            speed -= 0.5f;
-        }
-
-
-
-
-    }
+    
 }

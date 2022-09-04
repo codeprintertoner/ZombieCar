@@ -31,7 +31,10 @@ public class ZombieSpawner : MonoBehaviour
     private void CreateZombie()
     {
         float Spawn_x = Random.Range(-5f,5f), Spawn_z= Random.Range(-5f, 5f);
+
         //생성할 위치를 랜덤으로 결정
+
+        
         
         Vector3 SpawnPoint = new Vector3(Spawn_x,0,Spawn_z)+ player.transform.position;
 
@@ -45,8 +48,8 @@ public class ZombieSpawner : MonoBehaviour
         if (timeAfterSpawn >= spawnRate)
         {
             timeAfterSpawn = 0f;
-            var zombie = ObjectPool.Instance.CreateZombie(SpawnPoint);
-            //zombie.transform.parent();
+            ObjectPool.Instance.CreateZombie(SpawnPoint);
+           
             spawnRate = Random.Range(0.6f,1f);
         }
         
