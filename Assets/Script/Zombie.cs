@@ -12,6 +12,10 @@ public class Zombie : MonoBehaviour
     private PlayerMove player;
     [SerializeField]
     private CamShake camShake;
+    [SerializeField]
+    private GameObject Particle;
+
+
 
     private ZombieDieColor zombieDieColor;
 
@@ -108,8 +112,16 @@ public class Zombie : MonoBehaviour
     
     IEnumerator DEATH()
     {
+
+        Vector3 transformY = new Vector3(0,0.5f,0);
+        Particle = ParticlePool.Inst.CreateParticle(transform.position+ transformY);
+        Particle.transform.SetParent(transform);
+
+        StartCoroutine(HideParticle());
+
         zani.SetTrigger("Dead");
-       
+
+
         //gameObject.GetComponent<BoxCollider>().isTrigger = true;
         StartCoroutine(HideObj());
         
@@ -130,18 +142,28 @@ public class Zombie : MonoBehaviour
         SlowTime();
 
         StartCoroutine(JustTime());
-        
 
+
+
+
+        
 
         yield return null;
     }
+
+
+    IEnumerator HideParticle()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        ParticleManager.Inst.offParticle();
+    }   
 
     IEnumerator HideObj()
     {
 
         yield return new WaitForSeconds(2f);
         ObjectPool.Instance.DestroyZombie(this);
-        
+        ParticlePool.Inst.DestroyParticle(Particle);
     }
 
     IEnumerator JustTime()
@@ -151,19 +173,13 @@ public class Zombie : MonoBehaviour
         {
             Time.timeScale = 1f;
         }
-        
-        
-
     }
     
 
     void OnCollisionEnter(Collision collision)
     {
 
-
-     
-
-        if (collision.gameObject.tag == "Player"  )
+        if (collision.gameObject.tag == "Player" )
         {
 
             if (player.speed > 2 && !isdie)

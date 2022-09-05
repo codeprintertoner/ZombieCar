@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
 
     private float UISpeed;
 
-    private int score;
+    public int score;
     
     private PlayerMove player;
     [SerializeField]
@@ -50,6 +50,8 @@ public class UIManager : MonoBehaviour
     private Text ScoreUI;
     [SerializeField]
     private Text SpeedText;
+
+    private Text TimeText;
 
     private void Start()
     {
@@ -101,5 +103,9 @@ public class UIManager : MonoBehaviour
         score += dir;
         ScoreUI.text = "Score : " + score;
     }
+
+ 
+   
+
 
 }

@@ -868,6 +868,8 @@ MonoBehaviour:
   zrb: {fileID: 15817579404094549}
   player: {fileID: 0}
   camShake: {fileID: 0}
+  Particle: {fileID: 1834194341294532, guid: d5f26854a8904624c8073139cd2eb346, type: 3}
+  slowFactor: 0.5
   curState: 0
 --- !u!1 &15817579542739153
 GameObject:

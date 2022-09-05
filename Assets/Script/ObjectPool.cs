@@ -42,7 +42,8 @@ public class ObjectPool : MonoBehaviour
 
         Zombie instMob;
         // 처음에는 아무것도 없으니 생성하자
-        if (pool.Count == 0)
+        if (pool.Count == 
+            0)
         {
             // 인스턴시레이트로 생성할 프리팹을 직접 Resources에 있는 몬스터 프리팹을 직접 가져옴
             //로드한 프리팹을 이용해서 인스턴트 객체 한개를 만든다.

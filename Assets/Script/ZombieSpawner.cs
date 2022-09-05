@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ZombieSpawner : MonoBehaviour
 {
-    [SerializeField]
-    public Zombie zombiePrefab;
+    //[SerializeField]
+    //public Zombie zombiePrefab;
     [SerializeField]
     private PlayerMove player;
     private Zombie zombie;
@@ -16,7 +16,7 @@ public class ZombieSpawner : MonoBehaviour
     
     void Start()
     {
-        //player = GetComponent<PlayerMove>();
+        
         spawnRate = Random.Range(0.6f, 1f);
     }
 
