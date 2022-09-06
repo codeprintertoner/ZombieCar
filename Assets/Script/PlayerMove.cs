@@ -8,8 +8,9 @@ public class PlayerMove : MonoBehaviour
     float rotateSpeed = 180f;
     [SerializeField]
     private Rigidbody prb;
-    
-    public float speed { get; set; }
+    [SerializeField]
+    private GameObject playerparticle;
+    public float speed;
 
 
     [SerializeField]
@@ -18,6 +19,8 @@ public class PlayerMove : MonoBehaviour
 
     public ZombieSpawner zombieSpawner;
 
+    public float energyPlus = 0;
+    
 
     public float inputRotate { get; private set; }
     public float inputRotate2 { get; private set; }
@@ -27,17 +30,9 @@ public class PlayerMove : MonoBehaviour
     {
         prb = GetComponent<Rigidbody>();
         zombie = FindObjectOfType<Zombie>();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
         
-
-
     }
+
 
     private void FixedUpdate()
     {
@@ -53,28 +48,46 @@ public class PlayerMove : MonoBehaviour
         if (speed < 10)
         {
             speed += Time.deltaTime;
+            playerparticle.SetActive(false);
         }
 
-        Vector3 foward = transform.forward * speed * Time.deltaTime;
+        if (speed > 10)
+        {
+            playerparticle.SetActive(true);
+        }
+
+
+            Vector3 foward = transform.forward * speed * Time.deltaTime;
         prb.MovePosition(prb.position + foward);
 
 
 
-        //Vector3 lastpos = transform.position;
-        //float dist = (lastpos - transform.position).magnitude;
-        //float timer = 0f;
-        //timer += Time.deltaTime;
-        //float a = dist / timer ;
-        //timer = 0f;
-        //lastpos = transform.position;
+
 
         //상대적으로 회전할 수치 계산
         float turn = inputRotate * rotateSpeed * Time.deltaTime;
         //리지드바디를 이용해 게임 오브젝트 회전 변경
         prb.rotation *= Quaternion.Euler(0f, turn, 0f);
 
-
+      
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        
+            //충돌한 상대방으로부터 IItem 컴포넌트 가져오기 시도
+            IItem item = other.GetComponent<IItem>();
+
+            //충돌한 상대방으로부터 IItem 컴포넌트를 가져오는 데 성공했다면
+            if (item != null)
+            {
+                // Use 메서드를 실행하여 아이템 사용
+                item.Use(gameObject);
+                UIManager.Inst.energy += energyPlus;
+                energyPlus = 0f;
+             }
+        
+    }
+
+
 }

@@ -35,9 +35,9 @@ public class UIManager : MonoBehaviour
 
     public bool isGameover { get; set; } // 게임 오버 상태
 
-    float energy = 100f;
+    public float energy = 100f;
 
-    private float UISpeed;
+    public float UISpeed;
 
     public int score;
     
@@ -46,6 +46,8 @@ public class UIManager : MonoBehaviour
     private Image EnergyUI;
     [SerializeField]
     private Image SpeedUI;
+    [SerializeField]
+    private Image OverSpeedUI;
     [SerializeField]
     private Text ScoreUI;
     [SerializeField]
@@ -91,8 +93,16 @@ public class UIManager : MonoBehaviour
     public void Speed()
     {
         UISpeed = player.speed;
+        float OverUISpeed = player.speed - 10f;
 
         SpeedUI.fillAmount = UISpeed / 10f;
+        if(UISpeed > 9f)
+        {
+
+        OverSpeedUI.fillAmount = OverUISpeed / 5f;
+        }
+
+        
 
         SpeedText.text = "SPEED\n" + (int)player.speed;
     }

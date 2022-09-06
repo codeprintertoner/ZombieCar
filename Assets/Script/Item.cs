@@ -7,22 +7,9 @@ using UnityEngine;
 // 2. 연료 게이지 ++
 
 
-interface IItem
+public interface IItem
 {
-
+    void Use(GameObject targt);
 }
 
-public class Item : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    // Start is called before the first frame update
+    
     [SerializeField]
     Rigidbody zrb;
     Animator zani;
@@ -14,6 +14,7 @@ public class Zombie : MonoBehaviour
     private CamShake camShake;
     [SerializeField]
     private GameObject Particle;
+    private ItemSpawner itemspawner;
 
 
 
@@ -33,6 +34,7 @@ public class Zombie : MonoBehaviour
         zani = GetComponent<Animator>();
         player = FindObjectOfType<PlayerMove>();
         camShake = FindObjectOfType<CamShake>();
+        itemspawner = FindObjectOfType<ItemSpawner>();
         zombieDieColor = GetComponentInChildren<ZombieDieColor>();
     }
 
@@ -52,15 +54,56 @@ public class Zombie : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        BoundaryCheck();
+    }
+    void BoundaryCheck()
+    {
+        if (player.transform.position.x - transform.position.x > 25) // 플레이어의 x좌표와 맵의 좌표를 뺐을때 맵의 절반보다 클때 // 오른쪽으로 갈때
+        {
+            SetZombie(2);
+        }
+        if (player.transform.position.x - transform.position.x < -25) // 왼쪽으로 갈때
+        {
+            SetZombie(0);
 
-        
+        }
+        if (player.transform.position.z - transform.position.z > 25) // 위로 갈때
+        {
+            SetZombie(1);
+
+        }
+        if (player.transform.position.z - transform.position.z < -25) // 아래로 갈때
+        {
+            SetZombie(3);
+        }
     }
 
- 
-   
+    void SetZombie(int dir)
+    {
+        switch (dir)
+        {
+
+            case 0:
+                { transform.position += Vector3.left * 50; }
+                break;
+            case 1:
+                { transform.position += Vector3.forward * 50; }
+                break;
+            case 2:
+                { transform.position += Vector3.right * 50; }
+                break;
+            case 3:
+                { transform.position += Vector3.back * 50; }
+                break;
+
+        }
+    }
+
+
+
+
 
     Coroutine prevCoroutine = null;
     public enum STATE
@@ -114,7 +157,7 @@ public class Zombie : MonoBehaviour
     {
 
         Vector3 transformY = new Vector3(0,0.5f,0);
-        Particle = ParticlePool.Inst.CreateParticle(transform.position+ transformY);
+        Particle = ParticlePool.Inst.CreateParticle(transform.position + transformY);
         Particle.transform.SetParent(transform);
 
         StartCoroutine(HideParticle());
@@ -135,7 +178,7 @@ public class Zombie : MonoBehaviour
 
         UIManager.Inst.Score(100);
 
-            camShake.camShake();
+        camShake.camShake();
 
         zombieDieColor.Materia();
 
@@ -143,10 +186,11 @@ public class Zombie : MonoBehaviour
 
         StartCoroutine(JustTime());
 
-
-
+        
 
         
+
+
 
         yield return null;
     }
@@ -156,6 +200,7 @@ public class Zombie : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.5f);
         ParticleManager.Inst.offParticle();
+        itemspawner.Spawn(transform.position);
     }   
 
     IEnumerator HideObj()

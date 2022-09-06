@@ -8,7 +8,6 @@ public class ZombieSpawner : MonoBehaviour
     //public Zombie zombiePrefab;
     [SerializeField]
     private PlayerMove player;
-    private Zombie zombie;
     float timeAfterSpawn;
     float spawnRate;
 
