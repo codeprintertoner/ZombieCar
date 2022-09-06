@@ -14,9 +14,11 @@ public class Zombie : MonoBehaviour
     private CamShake camShake;
     [SerializeField]
     private GameObject Particle;
+    [SerializeField]
+    private GameObject HitParticle;
     private ItemSpawner itemspawner;
 
-
+    
 
     private ZombieDieColor zombieDieColor;
 
@@ -36,6 +38,7 @@ public class Zombie : MonoBehaviour
         camShake = FindObjectOfType<CamShake>();
         itemspawner = FindObjectOfType<ItemSpawner>();
         zombieDieColor = GetComponentInChildren<ZombieDieColor>();
+       
     }
 
     void OnEnable()
@@ -49,6 +52,7 @@ public class Zombie : MonoBehaviour
         zrb.useGravity = true;
         zombieDieColor.skinnedMeshRenderer.materials[0].color = Color.white;
         zombieDieColor.skinnedMeshRenderer.materials[1].color = Color.white;
+        HitParticle.SetActive(false);
 
         nextState(STATE.MOVE);
 
@@ -162,6 +166,7 @@ public class Zombie : MonoBehaviour
 
         StartCoroutine(HideParticle());
 
+        HitParticle.SetActive(true);
         zani.SetTrigger("Dead");
 
 

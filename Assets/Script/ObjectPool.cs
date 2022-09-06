@@ -60,13 +60,13 @@ public class ObjectPool : MonoBehaviour
         instMob.transform.parent = null;
         instMob.transform.position = pos;
         instMob.transform.rotation = Quaternion.identity;
-        instMob.gameObject.SetActive(true);
+        
         return instMob;
     }
 
     public void DestroyZombie(Zombie zombie)
     {
-        zombie.transform.parent = this.transform; // 없는 부모를 만들어줌
+        zombie.transform.parent = this.transform; 
         zombie.gameObject.SetActive(false);
         pool.Enqueue(zombie); // pool 에 1개 늘어난다.
 
