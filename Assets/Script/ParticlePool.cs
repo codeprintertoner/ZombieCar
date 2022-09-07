@@ -29,22 +29,21 @@ public class ParticlePool : MonoBehaviour
 
     Queue<GameObject> pool = new Queue<GameObject>();
     
-
+    
     public GameObject CreateParticle(Vector3 pos)
     {
 
 
         GameObject instParticle;
         // 처음에는 아무것도 없으니 생성하자
-        if (pool.Count ==
-            0)
+        if (pool.Count == 0)
         {
-            // 인스턴시레이트로 생성할 프리팹을 직접 Resources에 있는 몬스터 프리팹을 직접 가져옴
-            //로드한 프리팹을 이용해서 인스턴트 객체 한개를 만든다.
+            // 인스턴시레이트로 생성 파티클 프리팹 생성
+            // 로드한 프리팹을 이용해서 인스턴트 객체 한개를 만든다.
 
             instParticle = Instantiate(ParticlePrefab, pos, Quaternion.identity);
 
-            return instParticle;
+            return instParticle; //GameObject 타입으로 반환
         }
 
 
@@ -53,18 +52,17 @@ public class ParticlePool : MonoBehaviour
         // 지금 큐에서는 맨 앞에 있는 것 하나를 전달해 주면
         instParticle = pool.Dequeue();
         instParticle.transform.parent = null;
-        instParticle.transform.position = pos;
-        instParticle.transform.rotation = Quaternion.identity;
-        instParticle.gameObject.SetActive(true);
+        instParticle.transform.SetPositionAndRotation(pos, Quaternion.identity);
+        instParticle.SetActive(true);
         return instParticle;
     }
 
+    // 사용한 파티클을 오브젝트 풀로 가져온다.
     public void DestroyParticle(GameObject particle)
     {
-        //particle.transform.parent = this.transform; // 없는 부모를 만들어줌
-        particle.gameObject.SetActive(false);
+        particle.transform.parent = this.transform; // 부모위치에 생성
+        particle.gameObject.SetActive(false); // 
         pool.Enqueue(particle); // pool 에 1개 늘어난다.
-        particle.transform.parent = transform;
 
 
     }

@@ -32,8 +32,8 @@ public class UIManager : MonoBehaviour
     //-------------------------------------------------------------------
 
 
-
-    public bool isGameover { get; set; } // 게임 오버 상태
+    // 게임 오버 상태
+    public bool isGameover; //{ get; set; } 
 
     public float energy = 100f;
 
@@ -58,24 +58,18 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<PlayerMove>();
-       
-
     }
 
     void Update()
     {
 
-
         Energy();
         Speed();
-
-        
 
     }
 
 
     //연료 게이지 // 시간으로 감
-
     public void Energy()
     {
         energy -= Time.deltaTime;
@@ -92,22 +86,21 @@ public class UIManager : MonoBehaviour
     //속도 게이지 // 플레이어 speed로 계산
     public void Speed()
     {
+        //플레이어 속도를 UI속도에 넣어줌
         UISpeed = player.speed;
+        //제한속도를 넘어선 속도를 OverUi에 넣어줌
         float OverUISpeed = player.speed - 10f;
-
+        //스피드 UI
         SpeedUI.fillAmount = UISpeed / 10f;
         if(UISpeed > 9f)
         {
-
-        OverSpeedUI.fillAmount = OverUISpeed / 5f;
+            OverSpeedUI.fillAmount = OverUISpeed / 5f;
         }
-
-        
-
+        // 속도게이지안에 속도 텍스트 표시
         SpeedText.text = "SPEED\n" + (int)player.speed;
     }
 
- 
+    //스코어 값 받아오고 스코어 표시
     public void Score(int dir)
     {
         score += dir;

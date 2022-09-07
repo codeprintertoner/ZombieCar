@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour
             GameOverImage.gameObject.SetActive(true);
             if (Input.GetKeyUp(KeyCode.R))
             {
-                Time.timeScale = 1;
                 SceneManager.LoadScene("SampleScene");
+                Time.timeScale = 1;
 
             }
         }

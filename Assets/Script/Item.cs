@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// item인터페이스 + itemSpawner 만들기 
-// 1 . 가속도 + 속도안줄음
-// 2. 연료 게이지 ++
-
+//  Item인터페이스를 사용해 2가지의 아이템을 구현
 
 public interface IItem
 {

@@ -4,34 +4,46 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    
-    float rotateSpeed = 180f;
+    readonly float rotateSpeed = 180f; 
     [SerializeField]
     private Rigidbody prb;
     [SerializeField]
     private GameObject playerparticle;
     public float speed;
 
+    
+    public AudioClip NormalSpped;
+    
+
+    AudioSource audioSource;
+
 
     [SerializeField]
 
-    private Zombie zombie;
+    
 
     public ZombieSpawner zombieSpawner;
 
     public float energyPlus = 0;
     
 
-    public float inputRotate { get; private set; }
-    public float inputRotate2 { get; private set; }
+    public float InputRotate { get; private set; }
+    
 
 
     void Start()
     {
         prb = GetComponent<Rigidbody>();
-        zombie = FindObjectOfType<Zombie>();
+
+
+        audioSource = GetComponent<AudioSource>();
+
         
+
+
+
     }
+
 
 
     private void FixedUpdate()
@@ -41,9 +53,9 @@ public class PlayerMove : MonoBehaviour
 
     private void Move()
     {
-        inputRotate = Input.GetAxis("Horizontal");
-
+        InputRotate = Input.GetAxis("Horizontal");
         
+
         // 시간이 지날수록 가속도 올리기 / 무브스피드가 10일때 가속하지않음.
         if (speed < 10)
         {
@@ -54,9 +66,11 @@ public class PlayerMove : MonoBehaviour
         if (speed > 10)
         {
             playerparticle.SetActive(true);
+            
         }
+        
 
-
+        
             Vector3 foward = transform.forward * speed * Time.deltaTime;
         prb.MovePosition(prb.position + foward);
 
@@ -65,12 +79,16 @@ public class PlayerMove : MonoBehaviour
 
 
         //상대적으로 회전할 수치 계산
-        float turn = inputRotate * rotateSpeed * Time.deltaTime;
+        float turn = InputRotate * rotateSpeed * Time.deltaTime;
         //리지드바디를 이용해 게임 오브젝트 회전 변경
         prb.rotation *= Quaternion.Euler(0f, turn, 0f);
 
       
     }
+
+
+
+
 
     private void OnTriggerEnter(Collider other)
     {
